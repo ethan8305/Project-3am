@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-calm-50 text-ink antialiased;
+}
+
+/* Styling for rendered MDX topic content. */
+.prose-topic {
+  @apply max-w-2xl text-base leading-relaxed text-ink;
+}
+.prose-topic h2 {
+  @apply mt-8 mb-3 text-xl font-semibold text-calm-700;
+}
+.prose-topic h3 {
+  @apply mt-6 mb-2 text-lg font-semibold text-calm-700;
+}
+.prose-topic p {
+  @apply mb-4;
+}
+.prose-topic ul {
+  @apply mb-4 list-disc space-y-1 pl-6;
+}
+.prose-topic ol {
+  @apply mb-4 list-decimal space-y-1 pl-6;
+}
+.prose-topic a {
+  @apply text-calm-600 underline underline-offset-2;
+}
+.prose-topic strong {
+  @apply font-semibold;
+}
+.prose-topic blockquote {
+  @apply my-4 border-l-4 border-calm-200 bg-calm-100 px-4 py-2 text-sm text-calm-700;
+}
