@@ -2,7 +2,11 @@ import Link from "next/link";
 
 const navLinks = [
   { href: "/resources", label: "Resource hub" },
+  { href: "/playbook", label: "Playbook" },
   { href: "/triage", label: "Where do I start?" },
+  { href: "/talks", label: "Talks" },
+  { href: "/referrals", label: "Where to go next" },
+  { href: "/faq", label: "FAQ" },
   { href: "/booking", label: "Book a clinic" },
 ];
 

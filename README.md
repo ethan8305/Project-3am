@@ -6,16 +6,30 @@ tool. It is not legal advice and it is not a replacement for a lawyer.
 
 ## What it is, and what it is not
 
-This is a small, mostly static prototype built with Next.js. It does three
-things, and nothing more:
+This is a small, mostly static prototype built with Next.js. The core features
+are:
 
 1. **Resource hub.** Plain-language explainers on wills, Lasting Power of
    Attorney (LPA), trusts, CPF nomination, insurance, testamentary guardianship,
-   and deputyship. Each topic has a downloadable, blank preparation checklist.
+   and deputyship. Each topic has a downloadable, blank preparation checklist (PDF).
 2. **Self-assessment.** A short set of non-sensitive questions that points you
    towards relevant topics and to the booking page.
 3. **Clinic booking.** An embedded scheduling page (Cal.com, Calendly, or
    similar) for booking a clinic slot.
+
+It also includes these static, privacy-safe additions:
+
+4. **Planning playbook.** Bite-sized sections on the wider parts of planning (a
+   flourishing life, health, housing, meaningful engagement, money), plus a
+   downloadable blank "Future Caregiver Folder" template (PDF).
+5. **Talks and sessions.** A static listing of talks and workshops, with sign-up
+   routed through the booking page.
+6. **Where to go next.** A signposting referral directory of organisations.
+7. **Common questions.** A general FAQ (plain explanations only, no advice, no
+   chatbot).
+
+Every page is static. Nothing here collects or stores user data, and there is
+no backend beyond what Vercel serves statically.
 
 ### Privacy, by design
 
