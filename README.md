@@ -117,9 +117,11 @@ short frontmatter block (`title`, `description`) followed by the explainer.
 - The list of topics, their one-line summaries, and which checklist each links
   to is defined in `src/lib/topics.ts`. To add or remove a topic, update that
   list and add or remove the matching `content/topics/<slug>.mdx` file.
-- Downloadable checklists are plain Markdown files in `public/checklists/`.
-  Replace the `PLACEHOLDER` text with your real prompts. The download link on
-  each topic page is wired up via the `checklist` field in `src/lib/topics.ts`.
+- Downloadable checklists are PDF files in `public/checklists/`. Do not edit
+  the PDFs by hand. Instead, edit the checklist content in
+  `scripts/generate-checklists.mjs` and run `npm run checklists` to regenerate
+  them. Commit the updated PDFs. The download link on each topic page is wired
+  up via the `checklist` field in `src/lib/topics.ts`.
 
 Anything still marked `PLACEHOLDER` is intentionally a stand-in and should be
 reviewed by a qualified person before going live.
@@ -146,14 +148,16 @@ project-3am/
 │       ├── testamentary-guardianship.mdx
 │       └── deputyship.mdx
 ├── public/
-│   └── checklists/              # downloadable blank checklists
-│       ├── wills-checklist.md
-│       ├── lpa-checklist.md
-│       ├── trusts-checklist.md
-│       ├── cpf-nomination-checklist.md
-│       ├── insurance-checklist.md
-│       ├── testamentary-guardianship-checklist.md
-│       └── deputyship-checklist.md
+│   └── checklists/              # downloadable blank checklists (PDF)
+│       ├── wills-checklist.pdf
+│       ├── lpa-checklist.pdf
+│       ├── trusts-checklist.pdf
+│       ├── cpf-nomination-checklist.pdf
+│       ├── insurance-checklist.pdf
+│       ├── testamentary-guardianship-checklist.pdf
+│       └── deputyship-checklist.pdf
+├── scripts/
+│   └── generate-checklists.mjs  # edit checklist text here, run npm run checklists
 └── src/
     ├── app/
     │   ├── layout.tsx           # shared header, footer, disclaimer

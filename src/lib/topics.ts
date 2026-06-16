@@ -18,49 +18,49 @@ export const topics: Topic[] = [
     title: "Wills",
     summary:
       "A will sets out who looks after your affairs and how things are shared after you die.",
-    checklist: "/checklists/wills-checklist.md",
+    checklist: "/checklists/wills-checklist.pdf",
   },
   {
     slug: "lpa",
     title: "Lasting Power of Attorney (LPA)",
     summary:
       "An LPA lets a person choose who can make decisions for them if they lose the ability to decide for themselves.",
-    checklist: "/checklists/lpa-checklist.md",
+    checklist: "/checklists/lpa-checklist.pdf",
   },
   {
     slug: "trusts",
     title: "Trusts",
     summary:
       "A trust is a way of setting money or property aside, managed by trusted people for someone's benefit.",
-    checklist: "/checklists/trusts-checklist.md",
+    checklist: "/checklists/trusts-checklist.pdf",
   },
   {
     slug: "cpf-nomination",
     title: "CPF Nomination",
     summary:
       "A CPF nomination says who should receive your CPF savings after you die.",
-    checklist: "/checklists/cpf-nomination-checklist.md",
+    checklist: "/checklists/cpf-nomination-checklist.pdf",
   },
   {
     slug: "insurance",
     title: "Insurance",
     summary:
       "Insurance can provide money to support ongoing care. This explains the general idea, not which policy to buy.",
-    checklist: "/checklists/insurance-checklist.md",
+    checklist: "/checklists/insurance-checklist.pdf",
   },
   {
     slug: "testamentary-guardianship",
     title: "Testamentary Guardianship",
     summary:
       "A way for a parent to name a guardian for a child under 21 in their will.",
-    checklist: "/checklists/testamentary-guardianship-checklist.md",
+    checklist: "/checklists/testamentary-guardianship-checklist.pdf",
   },
   {
     slug: "deputyship",
     title: "Deputyship",
     summary:
       "A court process for appointing someone to make decisions for an adult who cannot make certain decisions themselves.",
-    checklist: "/checklists/deputyship-checklist.md",
+    checklist: "/checklists/deputyship-checklist.pdf",
   },
 ];
 
