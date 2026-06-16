@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "checklists": "node scripts/generate-checklists.mjs"
+    "checklists": "node scripts/generate-checklists.mjs",
+    "folder": "node scripts/generate-folder.mjs",
+    "assets": "npm run checklists && npm run folder"
   },
   "dependencies": {
     "next": "^14.2.33",

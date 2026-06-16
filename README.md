@@ -122,6 +122,11 @@ short frontmatter block (`title`, `description`) followed by the explainer.
   `scripts/generate-checklists.mjs` and run `npm run checklists` to regenerate
   them. Commit the updated PDFs. The download link on each topic page is wired
   up via the `checklist` field in `src/lib/topics.ts`.
+- The blank "Future Caregiver Folder" template is a PDF in `public/templates/`.
+  Edit its content in `scripts/generate-folder.mjs` and run `npm run folder` to
+  regenerate it. It is a blank template only: do not put anyone's real details
+  into it. The download link lives on the resource hub page.
+- To rebuild every PDF at once, run `npm run assets`.
 
 Anything still marked `PLACEHOLDER` is intentionally a stand-in and should be
 reviewed by a qualified person before going live.
@@ -156,8 +161,11 @@ project-3am/
 │       ├── insurance-checklist.pdf
 │       ├── testamentary-guardianship-checklist.pdf
 │       └── deputyship-checklist.pdf
+│   └── templates/               # blank Future Caregiver Folder (PDF)
+│       └── future-caregiver-folder.pdf
 ├── scripts/
-│   └── generate-checklists.mjs  # edit checklist text here, run npm run checklists
+│   ├── generate-checklists.mjs  # edit checklist text here, run npm run checklists
+│   └── generate-folder.mjs      # edit folder template here, run npm run folder
 └── src/
     ├── app/
     │   ├── layout.tsx           # shared header, footer, disclaimer
