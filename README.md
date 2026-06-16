@@ -14,7 +14,8 @@ things, and nothing more:
    and deputyship. Each topic has a downloadable, blank preparation checklist.
 2. **Self-assessment.** A short set of non-sensitive questions that points you
    towards relevant topics and to the booking page.
-3. **Clinic booking.** An embedded Calendly form for booking a clinic slot.
+3. **Clinic booking.** An embedded scheduling page (Cal.com, Calendly, or
+   similar) for booking a clinic slot.
 
 ### Privacy, by design
 
@@ -28,10 +29,11 @@ These constraints are deliberate. Please keep them.
 - **The self-assessment holds answers in browser memory only.** It does not use
   `localStorage`, cookies, query strings, or any network request. Close the tab
   and the answers are gone. They are never tied to a name.
-- **Booking happens entirely inside Calendly.** This app never sees, stores, or
-  forwards what a person types into the booking form. The Calendly form is
-  configured to collect only a name, one contact method, a preferred slot, and a
-  general topic. There is no free-text box describing a person's situation.
+- **Booking happens entirely inside the scheduling provider.** This app embeds
+  the provider's page and never sees, stores, or forwards what a person types
+  into the booking form. The form should be configured to collect only a name,
+  one contact method, a preferred slot, and a general topic. There is no
+  free-text box describing a person's situation.
 - **No personalised legal advice anywhere**, including content pages. The pages
   explain in general terms what each tool is and when it tends to matter.
 
@@ -59,32 +61,42 @@ npm run start   # serve the production build
 npm run lint    # lint
 ```
 
-## Where to paste the Calendly link
+## Where to paste the booking link
 
-The booking page reads a single environment variable,
-`NEXT_PUBLIC_CALENDLY_URL`. Until it is set, the booking page shows a clear
-placeholder message instead of the widget.
+There are two ways to set the scheduling link, and either works:
 
-**Local development**
+**Easiest: edit one line of code**
+
+Open `src/app/booking/page.tsx` and paste your link into the `BOOKING_URL`
+line near the top:
+
+```ts
+const BOOKING_URL =
+  process.env.NEXT_PUBLIC_BOOKING_URL ?? "https://cal.com/your-name/30min";
+```
+
+Save the file. If `npm run dev` is running, the page updates on its own.
+
+**Alternative: an environment variable (handy for Vercel)**
 
 1. Copy `.env.example` to `.env.local`.
-2. Set your Calendly scheduling link, for example:
+2. Set your scheduling link, for example:
 
    ```
-   NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/your-org/clinic
+   NEXT_PUBLIC_BOOKING_URL=https://cal.com/your-name/30min
    ```
 
-3. Restart `npm run dev`.
+3. Restart `npm run dev`. On Vercel, add the same variable under Settings, then
+   Environment Variables, then redeploy.
 
-**On Vercel**
+The link works with Cal.com, Calendly, or any scheduling page. If a provider
+blocks being shown inside another site, the page also shows an "open the
+booking page in a new tab" link so booking still works.
 
-Add the same variable in your Vercel project under
-Settings, then Environment Variables, then redeploy.
+### Configuring the booking form fields
 
-### Configuring the Calendly form fields
-
-The privacy promise depends on how the Calendly event is set up. In Calendly,
-configure the booking event so it collects only:
+The privacy promise depends on how the scheduling event is set up. In your
+provider, configure the booking event so it collects only:
 
 - Name
 - One contact method (for example, an email address)
@@ -117,7 +129,7 @@ reviewed by a qualified person before going live.
 ```
 project-3am/
 ├── README.md
-├── .env.example                 # copy to .env.local, paste Calendly link
+├── .env.example                 # optional: copy to .env.local for booking link
 ├── package.json
 ├── next.config.mjs
 ├── tailwind.config.ts
@@ -154,14 +166,13 @@ project-3am/
     │   ├── triage/
     │   │   └── page.tsx         # hosts the client-side wizard
     │   └── booking/
-    │       └── page.tsx         # Calendly embed
+    │       └── page.tsx         # booking embed (set BOOKING_URL here)
     ├── components/
     │   ├── Header.tsx
     │   ├── Footer.tsx
     │   ├── Disclaimer.tsx
     │   ├── TopicCard.tsx
-    │   ├── TriageWizard.tsx     # client only; answers live in memory
-    │   └── CalendlyEmbed.tsx    # client only; loads Calendly widget
+    │   └── TriageWizard.tsx     # client only; answers live in memory
     └── lib/
         ├── topics.ts            # topic list and metadata
         └── triage.ts            # pure routing logic, stores nothing
@@ -170,5 +181,6 @@ project-3am/
 ## Deploying to Vercel
 
 Push the repository to GitHub and import it into Vercel. The default Next.js
-build settings work as is. Remember to set `NEXT_PUBLIC_CALENDLY_URL` in the
-Vercel project before the booking page will show the widget.
+build settings work as is. Make sure your booking link is set, either in the
+`BOOKING_URL` line of `src/app/booking/page.tsx` or via the
+`NEXT_PUBLIC_BOOKING_URL` environment variable in the Vercel project.
