@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Disclaimer from "@/components/Disclaimer";
-import CalendlyEmbed from "@/components/CalendlyEmbed";
 
 export const metadata: Metadata = {
   title: "Book a clinic | Project 3AM",
@@ -8,8 +7,18 @@ export const metadata: Metadata = {
     "Book a free clinic slot. You share only a name, one contact method, a preferred slot, and a general topic.",
 };
 
-// Set in your Vercel project settings or .env.local. See the README.
-const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL ?? "";
+// ---------------------------------------------------------------------------
+// YOUR BOOKING LINK GOES HERE.
+//
+// Paste your scheduling link between the quotation marks below. It works with
+// Cal.com, Calendly, or any other scheduling page. To change it later, just
+// edit this one line.
+//
+// (On Vercel you can instead set an environment variable called
+// NEXT_PUBLIC_BOOKING_URL, which will override the line below.)
+// ---------------------------------------------------------------------------
+const BOOKING_URL =
+  process.env.NEXT_PUBLIC_BOOKING_URL ?? "https://cal.eu/ethanng/30-minute-slot";
 
 export default function BookingPage() {
   return (
@@ -44,7 +53,41 @@ export default function BookingPage() {
         </p>
       </section>
 
-      <CalendlyEmbed url={calendlyUrl} />
+      {BOOKING_URL ? (
+        <div className="space-y-3">
+          <div className="overflow-hidden rounded-lg border border-calm-200 bg-white">
+            <iframe
+              src={BOOKING_URL}
+              title="Booking calendar"
+              className="h-[700px] w-full"
+              style={{ border: "0" }}
+              loading="lazy"
+            />
+          </div>
+          <p className="text-sm text-calm-700">
+            If the calendar above does not load,{" "}
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-calm-600 underline underline-offset-2"
+            >
+              open the booking page in a new tab
+            </a>
+            .
+          </p>
+        </div>
+      ) : (
+        <div className="rounded-lg border border-dashed border-calm-500 bg-white p-6 text-sm leading-relaxed text-calm-700">
+          <p className="mb-2 font-semibold">PLACEHOLDER: booking link not set</p>
+          <p>
+            No booking link has been added yet. Open{" "}
+            <code>src/app/booking/page.tsx</code> and paste your scheduling link
+            into the <code>BOOKING_URL</code> line near the top. See the README
+            for details.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

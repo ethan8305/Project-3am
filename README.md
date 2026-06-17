@@ -6,15 +6,30 @@ tool. It is not legal advice and it is not a replacement for a lawyer.
 
 ## What it is, and what it is not
 
-This is a small, mostly static prototype built with Next.js. It does three
-things, and nothing more:
+This is a small, mostly static prototype built with Next.js. The core features
+are:
 
 1. **Resource hub.** Plain-language explainers on wills, Lasting Power of
    Attorney (LPA), trusts, CPF nomination, insurance, testamentary guardianship,
-   and deputyship. Each topic has a downloadable, blank preparation checklist.
+   and deputyship. Each topic has a downloadable, blank preparation checklist (PDF).
 2. **Self-assessment.** A short set of non-sensitive questions that points you
    towards relevant topics and to the booking page.
-3. **Clinic booking.** An embedded Calendly form for booking a clinic slot.
+3. **Clinic booking.** An embedded scheduling page (Cal.com, Calendly, or
+   similar) for booking a clinic slot.
+
+It also includes these static, privacy-safe additions:
+
+4. **Planning playbook.** Bite-sized sections on the wider parts of planning (a
+   flourishing life, health, housing, meaningful engagement, money), plus a
+   downloadable blank "Future Caregiver Folder" template (PDF).
+5. **Talks and sessions.** A static listing of talks and workshops, with sign-up
+   routed through the booking page.
+6. **Where to go next.** A signposting referral directory of organisations.
+7. **Common questions.** A general FAQ (plain explanations only, no advice, no
+   chatbot).
+
+Every page is static. Nothing here collects or stores user data, and there is
+no backend beyond what Vercel serves statically.
 
 ### Privacy, by design
 
@@ -28,10 +43,11 @@ These constraints are deliberate. Please keep them.
 - **The self-assessment holds answers in browser memory only.** It does not use
   `localStorage`, cookies, query strings, or any network request. Close the tab
   and the answers are gone. They are never tied to a name.
-- **Booking happens entirely inside Calendly.** This app never sees, stores, or
-  forwards what a person types into the booking form. The Calendly form is
-  configured to collect only a name, one contact method, a preferred slot, and a
-  general topic. There is no free-text box describing a person's situation.
+- **Booking happens entirely inside the scheduling provider.** This app embeds
+  the provider's page and never sees, stores, or forwards what a person types
+  into the booking form. The form should be configured to collect only a name,
+  one contact method, a preferred slot, and a general topic. There is no
+  free-text box describing a person's situation.
 - **No personalised legal advice anywhere**, including content pages. The pages
   explain in general terms what each tool is and when it tends to matter.
 
@@ -59,32 +75,42 @@ npm run start   # serve the production build
 npm run lint    # lint
 ```
 
-## Where to paste the Calendly link
+## Where to paste the booking link
 
-The booking page reads a single environment variable,
-`NEXT_PUBLIC_CALENDLY_URL`. Until it is set, the booking page shows a clear
-placeholder message instead of the widget.
+There are two ways to set the scheduling link, and either works:
 
-**Local development**
+**Easiest: edit one line of code**
+
+Open `src/app/booking/page.tsx` and paste your link into the `BOOKING_URL`
+line near the top:
+
+```ts
+const BOOKING_URL =
+  process.env.NEXT_PUBLIC_BOOKING_URL ?? "https://cal.com/your-name/30min";
+```
+
+Save the file. If `npm run dev` is running, the page updates on its own.
+
+**Alternative: an environment variable (handy for Vercel)**
 
 1. Copy `.env.example` to `.env.local`.
-2. Set your Calendly scheduling link, for example:
+2. Set your scheduling link, for example:
 
    ```
-   NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/your-org/clinic
+   NEXT_PUBLIC_BOOKING_URL=https://cal.com/your-name/30min
    ```
 
-3. Restart `npm run dev`.
+3. Restart `npm run dev`. On Vercel, add the same variable under Settings, then
+   Environment Variables, then redeploy.
 
-**On Vercel**
+The link works with Cal.com, Calendly, or any scheduling page. If a provider
+blocks being shown inside another site, the page also shows an "open the
+booking page in a new tab" link so booking still works.
 
-Add the same variable in your Vercel project under
-Settings, then Environment Variables, then redeploy.
+### Configuring the booking form fields
 
-### Configuring the Calendly form fields
-
-The privacy promise depends on how the Calendly event is set up. In Calendly,
-configure the booking event so it collects only:
+The privacy promise depends on how the scheduling event is set up. In your
+provider, configure the booking event so it collects only:
 
 - Name
 - One contact method (for example, an email address)
@@ -105,9 +131,16 @@ short frontmatter block (`title`, `description`) followed by the explainer.
 - The list of topics, their one-line summaries, and which checklist each links
   to is defined in `src/lib/topics.ts`. To add or remove a topic, update that
   list and add or remove the matching `content/topics/<slug>.mdx` file.
-- Downloadable checklists are plain Markdown files in `public/checklists/`.
-  Replace the `PLACEHOLDER` text with your real prompts. The download link on
-  each topic page is wired up via the `checklist` field in `src/lib/topics.ts`.
+- Downloadable checklists are PDF files in `public/checklists/`. Do not edit
+  the PDFs by hand. Instead, edit the checklist content in
+  `scripts/generate-checklists.mjs` and run `npm run checklists` to regenerate
+  them. Commit the updated PDFs. The download link on each topic page is wired
+  up via the `checklist` field in `src/lib/topics.ts`.
+- The blank "Future Caregiver Folder" template is a PDF in `public/templates/`.
+  Edit its content in `scripts/generate-folder.mjs` and run `npm run folder` to
+  regenerate it. It is a blank template only: do not put anyone's real details
+  into it. The download link lives on the resource hub page.
+- To rebuild every PDF at once, run `npm run assets`.
 
 Anything still marked `PLACEHOLDER` is intentionally a stand-in and should be
 reviewed by a qualified person before going live.
@@ -117,7 +150,7 @@ reviewed by a qualified person before going live.
 ```
 project-3am/
 ├── README.md
-├── .env.example                 # copy to .env.local, paste Calendly link
+├── .env.example                 # optional: copy to .env.local for booking link
 ├── package.json
 ├── next.config.mjs
 ├── tailwind.config.ts
@@ -134,14 +167,19 @@ project-3am/
 │       ├── testamentary-guardianship.mdx
 │       └── deputyship.mdx
 ├── public/
-│   └── checklists/              # downloadable blank checklists
-│       ├── wills-checklist.md
-│       ├── lpa-checklist.md
-│       ├── trusts-checklist.md
-│       ├── cpf-nomination-checklist.md
-│       ├── insurance-checklist.md
-│       ├── testamentary-guardianship-checklist.md
-│       └── deputyship-checklist.md
+│   └── checklists/              # downloadable blank checklists (PDF)
+│       ├── wills-checklist.pdf
+│       ├── lpa-checklist.pdf
+│       ├── trusts-checklist.pdf
+│       ├── cpf-nomination-checklist.pdf
+│       ├── insurance-checklist.pdf
+│       ├── testamentary-guardianship-checklist.pdf
+│       └── deputyship-checklist.pdf
+│   └── templates/               # blank Future Caregiver Folder (PDF)
+│       └── future-caregiver-folder.pdf
+├── scripts/
+│   ├── generate-checklists.mjs  # edit checklist text here, run npm run checklists
+│   └── generate-folder.mjs      # edit folder template here, run npm run folder
 └── src/
     ├── app/
     │   ├── layout.tsx           # shared header, footer, disclaimer
@@ -154,14 +192,13 @@ project-3am/
     │   ├── triage/
     │   │   └── page.tsx         # hosts the client-side wizard
     │   └── booking/
-    │       └── page.tsx         # Calendly embed
+    │       └── page.tsx         # booking embed (set BOOKING_URL here)
     ├── components/
     │   ├── Header.tsx
     │   ├── Footer.tsx
     │   ├── Disclaimer.tsx
     │   ├── TopicCard.tsx
-    │   ├── TriageWizard.tsx     # client only; answers live in memory
-    │   └── CalendlyEmbed.tsx    # client only; loads Calendly widget
+    │   └── TriageWizard.tsx     # client only; answers live in memory
     └── lib/
         ├── topics.ts            # topic list and metadata
         └── triage.ts            # pure routing logic, stores nothing
@@ -170,5 +207,6 @@ project-3am/
 ## Deploying to Vercel
 
 Push the repository to GitHub and import it into Vercel. The default Next.js
-build settings work as is. Remember to set `NEXT_PUBLIC_CALENDLY_URL` in the
-Vercel project before the booking page will show the widget.
+build settings work as is. Make sure your booking link is set, either in the
+`BOOKING_URL` line of `src/app/booking/page.tsx` or via the
+`NEXT_PUBLIC_BOOKING_URL` environment variable in the Vercel project.
