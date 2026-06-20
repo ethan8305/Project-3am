@@ -62,6 +62,13 @@ export const topics: Topic[] = [
       "A court process for appointing someone to make decisions for an adult who cannot make certain decisions themselves.",
     checklist: "/checklists/deputyship-checklist.pdf",
   },
+  {
+    slug: "sntc-trust",
+    title: "SNTC Special Needs Trust",
+    summary:
+      "A trust run by the Special Needs Trust Company to help manage money for a person with special needs at lower cost.",
+    checklist: "/checklists/sntc-trust-checklist.pdf",
+  },
 ];
 
 export function getTopic(slug: string): Topic | undefined {

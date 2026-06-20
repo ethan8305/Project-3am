@@ -6,7 +6,7 @@
 // only. It does NOT use localStorage, cookies, query strings, or any network
 // request. When the tab closes, the answers are gone. Please keep it that way.
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   buildResult,
@@ -31,6 +31,24 @@ export default function TriageWizard() {
   const totalSteps = 3;
   const result = step >= totalSteps ? buildResult(answers) : null;
 
+  // Move focus to the current question (or the results heading) when the step
+  // changes, so screen reader and keyboard users are taken to the new content.
+  const legendRef = useRef<HTMLLegendElement>(null);
+  const resultsHeadingRef = useRef<HTMLHeadingElement>(null);
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (result) {
+      resultsHeadingRef.current?.focus();
+    } else {
+      legendRef.current?.focus();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
+
   function reset() {
     setAnswers(initialAnswers);
     setStep(0);
@@ -50,9 +68,17 @@ export default function TriageWizard() {
 
   if (result) {
     return (
-      <section className="space-y-6" aria-live="polite">
+      <section
+        className="space-y-6"
+        aria-label="Your suggested topics"
+        aria-live="polite"
+      >
         <div className="rounded-lg border border-calm-200 bg-white p-6">
-          <h2 className="mb-2 text-xl font-semibold text-calm-700">
+          <h2
+            ref={resultsHeadingRef}
+            tabIndex={-1}
+            className="mb-2 text-xl font-semibold text-calm-700 focus:outline-none"
+          >
             Some topics to look at
           </h2>
           <p className="mb-4 text-sm leading-relaxed text-calm-700">
@@ -102,14 +128,24 @@ export default function TriageWizard() {
   }
 
   return (
-    <section className="rounded-lg border border-calm-200 bg-white p-6">
-      <p className="mb-4 text-sm font-medium text-calm-500">
+    <section
+      className="rounded-lg border border-calm-200 bg-white p-6"
+      aria-label="Self-assessment"
+    >
+      <p
+        className="mb-4 text-sm font-medium text-calm-500"
+        aria-live="polite"
+      >
         Question {step + 1} of {totalSteps}
       </p>
 
       {step === 0 ? (
         <fieldset className="space-y-4">
-          <legend className="text-lg font-semibold text-calm-700">
+          <legend
+            ref={legendRef}
+            tabIndex={-1}
+            className="text-lg font-semibold text-calm-700 focus:outline-none"
+          >
             Is the person being cared for under 21, or 21 and over?
           </legend>
           <p className="text-sm text-calm-700">
@@ -146,7 +182,11 @@ export default function TriageWizard() {
 
       {step === 1 ? (
         <fieldset className="space-y-4">
-          <legend className="text-lg font-semibold text-calm-700">
+          <legend
+            ref={legendRef}
+            tabIndex={-1}
+            className="text-lg font-semibold text-calm-700 focus:outline-none"
+          >
             Which planning tools are you looking at?
           </legend>
           <p className="text-sm text-calm-700">
@@ -175,7 +215,11 @@ export default function TriageWizard() {
 
       {step === 2 ? (
         <fieldset className="space-y-4">
-          <legend className="text-lg font-semibold text-calm-700">
+          <legend
+            ref={legendRef}
+            tabIndex={-1}
+            className="text-lg font-semibold text-calm-700 focus:outline-none"
+          >
             What kind of support do you think you need right now?
           </legend>
           <div className="space-y-2">

@@ -63,15 +63,17 @@ export default function HomePage() {
         <h2 className="text-xl font-semibold text-calm-700">Explore more</h2>
         <ul className="flex flex-wrap gap-3 text-sm">
           {[
+            { href: "/roadmap", label: "Step-by-step roadmap" },
             { href: "/playbook", label: "Planning playbook" },
             { href: "/talks", label: "Talks and sessions" },
             { href: "/referrals", label: "Where to go next" },
             { href: "/faq", label: "Common questions" },
+            { href: "/feedback", label: "Give feedback" },
           ].map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="inline-block rounded-md border border-calm-200 bg-white px-4 py-2 font-medium text-calm-700 hover:border-calm-500"
+                className="inline-block rounded-md border border-calm-200 bg-white px-4 py-2 font-medium text-calm-700 hover:border-calm-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-calm-600"
               >
                 {link.label}
               </Link>
