@@ -40,9 +40,10 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const section = getPlaybookSection(params.slug);
+  const { slug } = await params;
+  const section = getPlaybookSection(slug);
   if (!section) return {};
   return {
     title: `${section.title} | Project 3AM`,
@@ -53,10 +54,11 @@ export async function generateMetadata({
 export default async function PlaybookSectionPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const section = getPlaybookSection(params.slug);
-  const loaded = await loadSection(params.slug);
+  const { slug } = await params;
+  const section = getPlaybookSection(slug);
+  const loaded = await loadSection(slug);
   if (!section || !loaded) {
     notFound();
   }

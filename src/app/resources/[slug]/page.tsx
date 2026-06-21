@@ -40,9 +40,10 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const topic = getTopic(params.slug);
+  const { slug } = await params;
+  const topic = getTopic(slug);
   if (!topic) return {};
   return {
     title: `${topic.title} | Project 3AM`,
@@ -53,10 +54,11 @@ export async function generateMetadata({
 export default async function TopicPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const topic = getTopic(params.slug);
-  const loaded = await loadTopic(params.slug);
+  const { slug } = await params;
+  const topic = getTopic(slug);
+  const loaded = await loadTopic(slug);
   if (!topic || !loaded) {
     notFound();
   }

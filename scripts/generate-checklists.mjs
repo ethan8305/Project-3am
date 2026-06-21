@@ -229,6 +229,35 @@ const checklists = [
       { heading: "Notes to myself", type: "notes" },
     ],
   },
+  {
+    file: "sntc-trust-checklist.pdf",
+    title: "SNTC Special Needs Trust: preparation checklist",
+    note: STD_NOTE,
+    sections: [
+      {
+        heading: "Things to think about",
+        type: "check",
+        items: [
+          "Who is the trust meant to support, and what kind of life do you want it to support?",
+          "Where might the money come from, for example CPF, a will, or insurance?",
+          "What would regular payouts be used for?",
+          "Who knows the person well and could help shape the care plan?",
+          "Have you involved the person being cared for, where that is possible?",
+        ],
+      },
+      {
+        heading: "Questions you might want to ask",
+        type: "bullet",
+        items: [
+          "How do I apply to set up an SNTC trust?",
+          "What are the current fees, and are there any subsidies?",
+          "How are payouts decided and managed?",
+          "How does an SNTC trust work alongside CPF, SNSS and insurance?",
+        ],
+      },
+      { heading: "Notes to myself", type: "notes" },
+    ],
+  },
 ];
 
 function newPageIfNeeded(doc, space) {

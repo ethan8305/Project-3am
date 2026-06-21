@@ -6,30 +6,35 @@ tool. It is not legal advice and it is not a replacement for a lawyer.
 
 ## What it is, and what it is not
 
-This is a small, mostly static prototype built with Next.js. The core features
-are:
+This is a small, static prototype built with Next.js (App Router) and React. It
+is an installable web app: caregivers can Add to Home Screen on a phone, tablet
+or computer and open it full screen, without any app store. The features are:
 
 1. **Resource hub.** Plain-language explainers on wills, Lasting Power of
    Attorney (LPA), trusts, CPF nomination, insurance, testamentary guardianship,
-   and deputyship. Each topic has a downloadable, blank preparation checklist (PDF).
+   deputyship, and the SNTC special needs trust. Each topic has a downloadable,
+   blank preparation checklist (PDF).
 2. **Self-assessment.** A short set of non-sensitive questions that points you
    towards relevant topics and to the booking page.
 3. **Clinic booking.** An embedded scheduling page (Cal.com, Calendly, or
    similar) for booking a clinic slot.
-
-It also includes these static, privacy-safe additions:
-
-4. **Planning playbook.** Bite-sized sections on the wider parts of planning (a
+4. **Step-by-step roadmap.** A general order of the things caregivers tend to
+   consider, each step linking to the relevant topic.
+5. **Planning playbook.** Bite-sized sections on the wider parts of planning (a
    flourishing life, health, housing, meaningful engagement, money), plus a
    downloadable blank "Future Caregiver Folder" template (PDF).
-5. **Talks and sessions.** A static listing of talks and workshops, with sign-up
+6. **Talks and sessions.** A static listing of talks and workshops, with sign-up
    routed through the booking page.
-6. **Where to go next.** A signposting referral directory of organisations.
-7. **Common questions.** A general FAQ (plain explanations only, no advice, no
+7. **Where to go next.** A signposting referral directory of organisations.
+8. **Common questions.** A general FAQ (plain explanations only, no advice, no
    chatbot).
+9. **Anonymous feedback.** An embedded third-party form for a few ratings and an
+   optional comment. The app itself stores nothing.
 
-Every page is static. Nothing here collects or stores user data, and there is
-no backend beyond what Vercel serves statically.
+Every page is static and prerendered. There is a language toggle (English, with
+Mandarin scaffolded for a translator) and basic offline support. Nothing here
+collects or stores user data, and there is no backend beyond what Vercel serves
+statically.
 
 ### Privacy, by design
 
@@ -50,6 +55,13 @@ These constraints are deliberate. Please keep them.
   free-text box describing a person's situation.
 - **No personalised legal advice anywhere**, including content pages. The pages
   explain in general terms what each tool is and when it tends to matter.
+- **The language toggle holds your choice in browser memory only.** It does not
+  use `localStorage`, cookies, or any network call, and resets to English on a
+  full reload.
+- **Offline support caches public content only.** The service worker stores
+  copies of public, static pages and assets on the device so the app keeps
+  working without a connection. It stores no personal data and sends nothing
+  anywhere.
 
 If you are extending this project and find yourself about to add data storage,
 authentication, document upload, or any feature that collects sensitive
@@ -58,7 +70,7 @@ does not.
 
 ## Run it locally
 
-You need Node.js 18.18 or newer (Node 20 or 22 recommended).
+You need Node.js 20 or 22. (Node 18 is no longer supported by Next.js 16.)
 
 ```bash
 npm install
@@ -70,10 +82,17 @@ Then open http://localhost:3000.
 Other scripts:
 
 ```bash
-npm run build   # production build
-npm run start   # serve the production build
-npm run lint    # lint
+npm run build        # production build
+npm run start        # serve the production build
+npm run lint         # lint
+npm run checklists   # regenerate the checklist PDFs
+npm run folder       # regenerate the Future Caregiver Folder PDF
+npm run icons        # regenerate the app icons
+npm run assets       # regenerate all of the above
 ```
+
+Note: offline support is only active in a production build (`npm run build`
+then `npm run start`), not in `npm run dev`.
 
 ## Where to paste the booking link
 
@@ -120,6 +139,44 @@ provider, configure the booking event so it collects only:
 
 Do **not** add a free-text "tell us about your situation" question.
 
+## Anonymous feedback form
+
+The feedback page embeds a third-party form so the app stores nothing. Set the
+link the same way as the booking link: either edit the `FEEDBACK_URL` line in
+`src/app/feedback/page.tsx`, or set `NEXT_PUBLIC_FEEDBACK_URL`. Use a form tool
+such as Google Forms, Tally or Microsoft Forms, and configure it to ask only a
+few rating questions and one optional general comment. Do **not** add a name
+field, a contact field, or any box asking about the person being cared for.
+
+## Installable web app (PWA)
+
+The app ships a web manifest (`public/manifest.webmanifest`), icons
+(`public/icons/`), a theme colour, and a service worker (`public/sw.js`) for
+basic offline support. On a phone or computer, the browser will offer Add to
+Home Screen or Install, after which it opens full screen like an app. No native
+code and no app store are involved.
+
+To change the icons, edit `scripts/generate-icons.mjs` and run `npm run icons`.
+
+## Languages
+
+There is a language toggle at the top left (English and Mandarin). English is
+the default and complete. The Mandarin strings live in
+`src/lib/i18n/messages.ts` as empty placeholders: fill each one in to translate
+the interface. Any value left empty falls back to English, so the app stays
+usable while translation is in progress.
+
+The legal content in `content/` is deliberately **not** machine-translated. It
+should be translated by a qualified person and added as separate content.
+
+## Accessibility
+
+The app aims to be usable by persons with ASD and older caregivers: semantic
+landmarks, a skip-to-content link, keyboard navigation with visible focus
+states, ARIA labelling and focus management on the self-assessment, text that
+scales with the browser, and a reduced-motion preference. Please keep these in
+mind when adding to it.
+
 ## How to swap in real content
 
 All topic content lives as MDX files in `content/topics/`. Each file has a
@@ -150,63 +207,83 @@ reviewed by a qualified person before going live.
 ```
 project-3am/
 ├── README.md
-├── .env.example                 # optional: copy to .env.local for booking link
+├── .env.example                 # optional env vars (booking and feedback links)
 ├── package.json
 ├── next.config.mjs
 ├── tailwind.config.ts
 ├── postcss.config.mjs
 ├── tsconfig.json
-├── .eslintrc.json
+├── eslint.config.mjs            # flat ESLint config (ESLint 9)
 ├── content/
-│   └── topics/                  # MDX explainers (swap PLACEHOLDER copy here)
-│       ├── wills.mdx
-│       ├── lpa.mdx
-│       ├── trusts.mdx
-│       ├── cpf-nomination.mdx
-│       ├── insurance.mdx
-│       ├── testamentary-guardianship.mdx
-│       └── deputyship.mdx
+│   ├── topics/                  # legal-tool MDX explainers
+│   │   ├── wills.mdx
+│   │   ├── lpa.mdx
+│   │   ├── trusts.mdx
+│   │   ├── cpf-nomination.mdx
+│   │   ├── insurance.mdx
+│   │   ├── testamentary-guardianship.mdx
+│   │   ├── deputyship.mdx
+│   │   └── sntc-trust.mdx
+│   └── playbook/                # wider life-planning MDX sections
+│       ├── flourishing-life.mdx
+│       ├── health.mdx
+│       ├── housing.mdx
+│       ├── meaningful-engagement.mdx
+│       └── money.mdx
 ├── public/
-│   └── checklists/              # downloadable blank checklists (PDF)
-│       ├── wills-checklist.pdf
-│       ├── lpa-checklist.pdf
-│       ├── trusts-checklist.pdf
-│       ├── cpf-nomination-checklist.pdf
-│       ├── insurance-checklist.pdf
-│       ├── testamentary-guardianship-checklist.pdf
-│       └── deputyship-checklist.pdf
-│   └── templates/               # blank Future Caregiver Folder (PDF)
-│       └── future-caregiver-folder.pdf
+│   ├── manifest.webmanifest     # PWA manifest
+│   ├── sw.js                    # service worker (offline support)
+│   ├── icons/                   # PWA app icons (generated)
+│   ├── checklists/              # downloadable blank checklists (PDF, generated)
+│   └── templates/               # blank Future Caregiver Folder (PDF, generated)
 ├── scripts/
-│   ├── generate-checklists.mjs  # edit checklist text here, run npm run checklists
-│   └── generate-folder.mjs      # edit folder template here, run npm run folder
+│   ├── generate-checklists.mjs  # checklist PDFs (npm run checklists)
+│   ├── generate-folder.mjs      # folder template PDF (npm run folder)
+│   └── generate-icons.mjs       # app icons (npm run icons)
 └── src/
     ├── app/
-    │   ├── layout.tsx           # shared header, footer, disclaimer
+    │   ├── layout.tsx           # chrome, i18n provider, PWA metadata, a11y
     │   ├── page.tsx             # home
     │   ├── globals.css
     │   ├── not-found.tsx
-    │   ├── resources/
-    │   │   ├── page.tsx         # hub index
-    │   │   └── [slug]/page.tsx  # renders one MDX topic
-    │   ├── triage/
-    │   │   └── page.tsx         # hosts the client-side wizard
-    │   └── booking/
-    │       └── page.tsx         # booking embed (set BOOKING_URL here)
+    │   ├── offline/page.tsx     # offline fallback
+    │   ├── resources/[slug]/    # renders one topic MDX
+    │   ├── playbook/[slug]/     # renders one playbook MDX
+    │   ├── roadmap/page.tsx     # step-by-step planning roadmap
+    │   ├── triage/page.tsx      # hosts the client-side wizard
+    │   ├── talks/page.tsx
+    │   ├── referrals/page.tsx
+    │   ├── faq/page.tsx
+    │   ├── feedback/page.tsx    # feedback embed (set FEEDBACK_URL here)
+    │   └── booking/page.tsx     # booking embed (set BOOKING_URL here)
     ├── components/
-    │   ├── Header.tsx
-    │   ├── Footer.tsx
+    │   ├── Header.tsx           # client; translated nav
+    │   ├── Footer.tsx           # client; translated
+    │   ├── TopBar.tsx           # holds the language toggle
+    │   ├── SkipLink.tsx
+    │   ├── ServiceWorkerRegister.tsx
     │   ├── Disclaimer.tsx
     │   ├── TopicCard.tsx
-    │   └── TriageWizard.tsx     # client only; answers live in memory
+    │   ├── TriageWizard.tsx     # client only; answers live in memory
+    │   └── i18n/
+    │       ├── LocaleProvider.tsx
+    │       ├── LanguageToggle.tsx
+    │       └── LocaleNotice.tsx
     └── lib/
-        ├── topics.ts            # topic list and metadata
-        └── triage.ts            # pure routing logic, stores nothing
+        ├── topics.ts
+        ├── playbook.ts
+        ├── triage.ts            # pure routing logic, stores nothing
+        ├── referrals.ts
+        ├── faq.ts
+        ├── talks.ts
+        └── i18n/
+            ├── config.ts        # locales and defaults
+            └── messages.ts      # UI strings (fill in Mandarin here)
 ```
 
 ## Deploying to Vercel
 
 Push the repository to GitHub and import it into Vercel. The default Next.js
-build settings work as is. Make sure your booking link is set, either in the
-`BOOKING_URL` line of `src/app/booking/page.tsx` or via the
-`NEXT_PUBLIC_BOOKING_URL` environment variable in the Vercel project.
+build settings work as is. Set your booking link (and optionally a feedback
+form link) either in code or as `NEXT_PUBLIC_BOOKING_URL` and
+`NEXT_PUBLIC_FEEDBACK_URL` environment variables in the Vercel project.
