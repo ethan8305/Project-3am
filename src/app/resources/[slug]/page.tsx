@@ -67,10 +67,10 @@ export default async function TopicPage({
     <article className="space-y-6">
       <nav className="text-sm">
         <Link
-          href="/resources"
+          href="/roadmap"
           className="text-calm-600 underline underline-offset-2"
         >
-          Back to the resource hub
+          Back to the roadmap
         </Link>
       </nav>
 

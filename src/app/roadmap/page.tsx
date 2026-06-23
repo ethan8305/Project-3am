@@ -20,8 +20,13 @@ type Step = {
 const steps: Step[] = [
   {
     title: "Start with the person and the life they want",
-    body: "Before any document, picture what a good, flourishing life looks like for the person being cared for. Involve them wherever that is possible.",
-    links: [{ href: "/playbook/flourishing-life", label: "Towards a flourishing life" }],
+    body: "Before any document, picture what a good, flourishing life looks like for the person being cared for: their hopes, health, home and the things they enjoy. Involve them wherever that is possible.",
+    links: [
+      { href: "/playbook/flourishing-life", label: "Towards a flourishing life" },
+      { href: "/playbook/health", label: "Health matters" },
+      { href: "/playbook/housing", label: "Housing matters" },
+      { href: "/playbook/meaningful-engagement", label: "Meaningful engagement" },
+    ],
   },
   {
     title: "Note their age: under 21, or 21 and over",
@@ -57,15 +62,15 @@ const steps: Step[] = [
   {
     title: "Think about how care will be funded",
     body: "Insurance can be one source of money to support ongoing care. It usually sits alongside a will or trust so the money is received and managed as you intend.",
-    links: [{ href: "/resources/insurance", label: "Insurance" }],
+    links: [
+      { href: "/resources/insurance", label: "Insurance" },
+      { href: "/playbook/money", label: "Money matters" },
+    ],
   },
   {
     title: "Gather your thoughts and talk to someone",
     body: "Use the blank Future Caregiver Folder to pull it together at your own pace, then book a free clinic slot to talk things through.",
-    links: [
-      { href: "/playbook", label: "Planning playbook" },
-      { href: "/booking", label: "Book a clinic" },
-    ],
+    links: [{ href: "/booking", label: "Book a clinic" }],
   },
 ];
 
@@ -78,9 +83,9 @@ export default function RoadmapPage() {
         </h1>
         <p className="max-w-2xl text-lg leading-relaxed">
           Planning can feel like a lot at once. This is a general order of the
-          things caregivers tend to consider, with a link to the relevant topic
-          at each step. There is no single right path, and you can move through
-          it in whatever order suits you.
+          things caregivers tend to consider. Each step links to the topics that
+          explain it in plain language, so you can read at your own pace and in
+          whatever order suits you.
         </p>
         <Disclaimer className="max-w-2xl" />
         <p className="max-w-2xl rounded-md border border-calm-200 bg-calm-100 px-4 py-3 text-sm leading-relaxed text-calm-700">
@@ -125,6 +130,26 @@ export default function RoadmapPage() {
           </li>
         ))}
       </ol>
+
+      <section className="max-w-2xl space-y-3 rounded-lg border border-calm-200 bg-white p-6">
+        <h2 className="text-xl font-semibold text-calm-700">
+          Future Caregiver Folder, a blank template
+        </h2>
+        <p className="text-sm leading-relaxed">
+          A blank planning template to gather your thoughts across the bigger
+          picture: hopes for the future, health, housing, meaningful engagement
+          and money. You fill it in privately, at your own pace, and the person
+          being cared for can take part wherever possible. It asks for no
+          personal details here and nothing is sent anywhere.
+        </p>
+        <a
+          href="/templates/future-caregiver-folder.pdf"
+          download
+          className="inline-block rounded-md bg-calm-600 px-4 py-2 text-sm font-semibold text-white hover:bg-calm-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-calm-600"
+        >
+          Download the blank folder template (PDF)
+        </a>
+      </section>
     </div>
   );
 }
