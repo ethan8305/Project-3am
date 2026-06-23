@@ -14,8 +14,11 @@ or computer and open it full screen, without any app store. The features are:
    Attorney (LPA), trusts, CPF nomination, insurance, testamentary guardianship,
    deputyship, and the SNTC special needs trust. Each topic has a downloadable,
    blank preparation checklist (PDF).
-2. **Self-assessment.** A short set of non-sensitive questions that points you
-   towards relevant topics and to the booking page.
+2. **Where do I start? assistant.** A floating, scripted mini chatbot at the
+   bottom right of every page. It asks a few non-sensitive questions and points
+   you towards relevant topics and the booking page. It is not an AI: it only
+   shows scripted content, holds answers in browser memory, and stores nothing.
+   A full-page version of the same questions also remains at `/triage`.
 3. **Clinic booking.** An embedded scheduling page (Cal.com, Calendly, or
    similar) for booking a clinic slot.
 4. **Step-by-step roadmap.** A general order of the things caregivers tend to
@@ -160,7 +163,8 @@ To change the icons, edit `scripts/generate-icons.mjs` and run `npm run icons`.
 
 ## Languages
 
-There is a language toggle at the top left (English and Mandarin). English is
+There is a language toggle in the header, on the right of the tab row (English
+and Mandarin). English is
 the default and complete. The Mandarin strings live in
 `src/lib/i18n/messages.ts` as empty placeholders: fill each one in to translate
 the interface. Any value left empty falls back to English, so the app stays
@@ -250,21 +254,24 @@ project-3am/
     │   ├── resources/[slug]/    # renders one topic MDX
     │   ├── playbook/[slug]/     # renders one playbook MDX
     │   ├── roadmap/page.tsx     # step-by-step planning roadmap
-    │   ├── triage/page.tsx      # hosts the client-side wizard
+    │   ├── triage/page.tsx      # full-page self-assessment (unlinked fallback)
     │   ├── talks/page.tsx
     │   ├── referrals/page.tsx
     │   ├── faq/page.tsx
     │   ├── feedback/page.tsx    # feedback embed (set FEEDBACK_URL here)
     │   └── booking/page.tsx     # booking embed (set BOOKING_URL here)
     ├── components/
-    │   ├── Header.tsx           # client; translated nav
+    │   ├── Header.tsx           # client; one-row nav + language toggle
     │   ├── Footer.tsx           # client; translated
-    │   ├── TopBar.tsx           # holds the language toggle
     │   ├── SkipLink.tsx
     │   ├── ServiceWorkerRegister.tsx
     │   ├── Disclaimer.tsx
     │   ├── TopicCard.tsx
-    │   ├── TriageWizard.tsx     # client only; answers live in memory
+    │   ├── TriageWizard.tsx     # full-page wizard; answers live in memory
+    │   ├── chat/                # the floating "Where do I start?" assistant
+    │   │   ├── ChatProvider.tsx
+    │   │   ├── ChatAssistant.tsx   # scripted, no AI, stores nothing
+    │   │   └── OpenAssistantButton.tsx
     │   └── i18n/
     │       ├── LocaleProvider.tsx
     │       ├── LanguageToggle.tsx

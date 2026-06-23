@@ -3,10 +3,11 @@ import "./globals.css";
 import { LocaleProvider } from "@/components/i18n/LocaleProvider";
 import LocaleNotice from "@/components/i18n/LocaleNotice";
 import SkipLink from "@/components/SkipLink";
-import TopBar from "@/components/TopBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import { ChatProvider } from "@/components/chat/ChatProvider";
+import ChatAssistant from "@/components/chat/ChatAssistant";
 
 export const metadata: Metadata = {
   applicationName: "Project 3AM",
@@ -41,19 +42,21 @@ export default function RootLayout({
     <html lang="en-GB">
       <body className="flex min-h-screen flex-col">
         <LocaleProvider>
-          <SkipLink />
-          <TopBar />
-          <LocaleNotice />
-          <Header />
-          <main
-            id="main-content"
-            tabIndex={-1}
-            className="mx-auto w-full max-w-4xl flex-1 px-4 py-8 focus:outline-none"
-          >
-            {children}
-          </main>
-          <Footer />
-          <ServiceWorkerRegister />
+          <ChatProvider>
+            <SkipLink />
+            <LocaleNotice />
+            <Header />
+            <main
+              id="main-content"
+              tabIndex={-1}
+              className="mx-auto w-full max-w-4xl flex-1 px-4 py-8 focus:outline-none"
+            >
+              {children}
+            </main>
+            <Footer />
+            <ChatAssistant />
+            <ServiceWorkerRegister />
+          </ChatProvider>
         </LocaleProvider>
       </body>
     </html>
