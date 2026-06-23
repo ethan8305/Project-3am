@@ -10,28 +10,30 @@ This is a small, static prototype built with Next.js (App Router) and React. It
 is an installable web app: caregivers can Add to Home Screen on a phone, tablet
 or computer and open it full screen, without any app store. The features are:
 
-1. **Resource hub.** Plain-language explainers on wills, Lasting Power of
-   Attorney (LPA), trusts, CPF nomination, insurance, testamentary guardianship,
-   deputyship, and the SNTC special needs trust. Each topic has a downloadable,
-   blank preparation checklist (PDF).
-2. **Where do I start? assistant.** A floating, scripted mini chatbot at the
+1. **Step-by-step roadmap.** The main entry point. A general order of the things
+   caregivers tend to consider, where each step links to the topic and
+   life-planning pages that explain it. It also offers the blank "Future
+   Caregiver Folder" template (PDF).
+2. **Topic and section pages.** Plain-language explainers reached from the
+   roadmap. Legal-tool topics (`/resources/<slug>`): wills, LPA, trusts, CPF
+   nomination, insurance, testamentary guardianship, deputyship, and the SNTC
+   special needs trust, each with a downloadable preparation checklist (PDF).
+   Life-planning sections (`/playbook/<slug>`): a flourishing life, health,
+   housing, meaningful engagement, money. (These no longer have their own index
+   pages in the nav: the roadmap is the way in.)
+3. **Where do I start? assistant.** A floating, scripted mini chatbot at the
    bottom right of every page. It asks a few non-sensitive questions and points
    you towards relevant topics and the booking page. It is not an AI: it only
    shows scripted content, holds answers in browser memory, and stores nothing.
    A full-page version of the same questions also remains at `/triage`.
-3. **Clinic booking.** An embedded scheduling page (Cal.com, Calendly, or
+4. **Clinic booking.** An embedded scheduling page (Cal.com, Calendly, or
    similar) for booking a clinic slot.
-4. **Step-by-step roadmap.** A general order of the things caregivers tend to
-   consider, each step linking to the relevant topic.
-5. **Planning playbook.** Bite-sized sections on the wider parts of planning (a
-   flourishing life, health, housing, meaningful engagement, money), plus a
-   downloadable blank "Future Caregiver Folder" template (PDF).
-6. **Talks and sessions.** A static listing of talks and workshops, with sign-up
+5. **Talks and sessions.** A static listing of talks and workshops, with sign-up
    routed through the booking page.
-7. **Where to go next.** A signposting referral directory of organisations.
-8. **Common questions.** A general FAQ (plain explanations only, no advice, no
+6. **Where to go next.** A signposting referral directory of organisations.
+7. **Common questions.** A general FAQ (plain explanations only, no advice, no
    chatbot).
-9. **Anonymous feedback.** An embedded third-party form for a few ratings and an
+8. **Anonymous feedback.** An embedded third-party form for a few ratings and an
    optional comment. The app itself stores nothing.
 
 Every page is static and prerendered. There is a language toggle (English, with
@@ -200,7 +202,7 @@ short frontmatter block (`title`, `description`) followed by the explainer.
 - The blank "Future Caregiver Folder" template is a PDF in `public/templates/`.
   Edit its content in `scripts/generate-folder.mjs` and run `npm run folder` to
   regenerate it. It is a blank template only: do not put anyone's real details
-  into it. The download link lives on the resource hub page.
+  into it. The download link lives on the roadmap page.
 - To rebuild every PDF at once, run `npm run assets`.
 
 Anything still marked `PLACEHOLDER` is intentionally a stand-in and should be
@@ -251,9 +253,9 @@ project-3am/
     │   ├── globals.css
     │   ├── not-found.tsx
     │   ├── offline/page.tsx     # offline fallback
-    │   ├── resources/[slug]/    # renders one topic MDX
-    │   ├── playbook/[slug]/     # renders one playbook MDX
-    │   ├── roadmap/page.tsx     # step-by-step planning roadmap
+    │   ├── roadmap/page.tsx     # main entry point; links to all topics
+    │   ├── resources/[slug]/    # renders one topic MDX (no index page)
+    │   ├── playbook/[slug]/     # renders one playbook MDX (no index page)
     │   ├── triage/page.tsx      # full-page self-assessment (unlinked fallback)
     │   ├── talks/page.tsx
     │   ├── referrals/page.tsx
@@ -266,7 +268,6 @@ project-3am/
     │   ├── SkipLink.tsx
     │   ├── ServiceWorkerRegister.tsx
     │   ├── Disclaimer.tsx
-    │   ├── TopicCard.tsx
     │   ├── TriageWizard.tsx     # full-page wizard; answers live in memory
     │   ├── chat/                # the floating "Where do I start?" assistant
     │   │   ├── ChatProvider.tsx

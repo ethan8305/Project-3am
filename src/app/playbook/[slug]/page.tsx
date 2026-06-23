@@ -67,10 +67,10 @@ export default async function PlaybookSectionPage({
     <article className="space-y-6">
       <nav className="text-sm">
         <Link
-          href="/playbook"
+          href="/roadmap"
           className="text-calm-600 underline underline-offset-2"
         >
-          Back to the planning playbook
+          Back to the roadmap
         </Link>
       </nav>
 

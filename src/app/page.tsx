@@ -4,9 +4,9 @@ import OpenAssistantButton from "@/components/chat/OpenAssistantButton";
 
 const cards = [
   {
-    href: "/resources",
-    title: "Resource hub",
-    body: "Plain-language explainers on wills, LPA, trusts, CPF nomination, insurance, guardianship and deputyship.",
+    href: "/roadmap",
+    title: "Step-by-step roadmap",
+    body: "A general order of things to consider, with each step linking to plain-language explainers on wills, LPA, trusts, CPF, insurance, guardianship, deputyship and more.",
   },
   {
     href: "/booking",
@@ -65,8 +65,6 @@ export default function HomePage() {
         <h2 className="text-xl font-semibold text-calm-700">Explore more</h2>
         <ul className="flex flex-wrap gap-3 text-sm">
           {[
-            { href: "/roadmap", label: "Step-by-step roadmap" },
-            { href: "/playbook", label: "Planning playbook" },
             { href: "/talks", label: "Talks and sessions" },
             { href: "/referrals", label: "Where to go next" },
             { href: "/faq", label: "Common questions" },

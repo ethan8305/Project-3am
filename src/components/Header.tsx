@@ -7,8 +7,6 @@ import LanguageToggle from "@/components/i18n/LanguageToggle";
 import type { MessageKey } from "@/lib/i18n/messages";
 
 const navLinks: { href: string; key: MessageKey }[] = [
-  { href: "/resources", key: "nav.resources" },
-  { href: "/playbook", key: "nav.playbook" },
   { href: "/roadmap", key: "nav.roadmap" },
   { href: "/talks", key: "nav.talks" },
   { href: "/referrals", key: "nav.referrals" },
