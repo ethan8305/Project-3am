@@ -1,12 +1,8 @@
 import Link from "next/link";
 import Disclaimer from "@/components/Disclaimer";
+import OpenAssistantButton from "@/components/chat/OpenAssistantButton";
 
 const cards = [
-  {
-    href: "/triage",
-    title: "Where do I start?",
-    body: "Answer a few short questions and we will point you to the topics that tend to be relevant. Nothing you enter is saved.",
-  },
   {
     href: "/resources",
     title: "Resource hub",
@@ -41,11 +37,17 @@ export default function HomePage() {
 
       <section>
         <ul className="grid gap-4 sm:grid-cols-3">
+          <li>
+            <OpenAssistantButton
+              title="Where do I start?"
+              body="Tap to open the assistant. Answer a few short questions and it will point you to the topics that tend to be relevant. Nothing you tap is saved."
+            />
+          </li>
           {cards.map((card) => (
             <li key={card.href}>
               <Link
                 href={card.href}
-                className="flex h-full flex-col rounded-lg border border-calm-200 bg-white p-5 transition hover:border-calm-500 hover:shadow-sm"
+                className="flex h-full flex-col rounded-lg border border-calm-200 bg-white p-5 transition hover:border-calm-500 hover:shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-calm-600"
               >
                 <span className="mb-2 text-lg font-semibold text-calm-700">
                   {card.title}
