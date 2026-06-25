@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { compileMDX } from "next-mdx-remote/rsc";
 import Disclaimer from "@/components/Disclaimer";
+import RoadmapStepLink from "@/components/RoadmapStepLink";
 import { getAllSlugs, getTopic } from "@/lib/topics";
 
 export const dynamicParams = false;
@@ -66,12 +67,7 @@ export default async function TopicPage({
   return (
     <article className="space-y-6">
       <nav className="text-sm">
-        <Link
-          href="/resources"
-          className="text-calm-600 underline underline-offset-2"
-        >
-          Back to the resource hub
-        </Link>
+        <RoadmapStepLink href={`/resources/${slug}`} />
       </nav>
 
       <header className="space-y-2">

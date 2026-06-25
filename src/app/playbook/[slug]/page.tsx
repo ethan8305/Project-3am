@@ -1,10 +1,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { compileMDX } from "next-mdx-remote/rsc";
 import Disclaimer from "@/components/Disclaimer";
+import RoadmapStepLink from "@/components/RoadmapStepLink";
 import { getAllPlaybookSlugs, getPlaybookSection } from "@/lib/playbook";
 
 export const dynamicParams = false;
@@ -66,12 +66,7 @@ export default async function PlaybookSectionPage({
   return (
     <article className="space-y-6">
       <nav className="text-sm">
-        <Link
-          href="/playbook"
-          className="text-calm-600 underline underline-offset-2"
-        >
-          Back to the planning playbook
-        </Link>
+        <RoadmapStepLink href={`/playbook/${slug}`} />
       </nav>
 
       <header className="space-y-2">
