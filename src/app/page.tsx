@@ -2,16 +2,26 @@ import Link from "next/link";
 import Disclaimer from "@/components/Disclaimer";
 import OpenAssistantButton from "@/components/chat/OpenAssistantButton";
 
-const cards = [
+const moreLinks = [
   {
-    href: "/roadmap",
-    title: "Step-by-step roadmap",
-    body: "A general order of things to consider, with each step linking to plain-language explainers on wills, LPA, trusts, CPF, insurance, guardianship, deputyship and more.",
+    href: "/talks",
+    label: "Talks and sessions",
+    body: "Short talks that explain common planning topics in plain language.",
   },
   {
-    href: "/booking",
-    title: "Book a clinic",
-    body: "Ready to talk to someone? Book a free clinic slot. You only share a name, one way to reach you, and a topic.",
+    href: "/referrals",
+    label: "Where to go next",
+    body: "Other organisations and where to turn for further help.",
+  },
+  {
+    href: "/faq",
+    label: "Common questions",
+    body: "Plain answers to questions people often ask.",
+  },
+  {
+    href: "/feedback",
+    label: "Give feedback",
+    body: "Tell us anonymously how to make this more useful.",
   },
 ];
 
@@ -35,47 +45,67 @@ export default function HomePage() {
         <Disclaimer className="max-w-2xl" />
       </section>
 
-      <section>
-        <ul className="grid gap-4 sm:grid-cols-3">
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold text-calm-700">
+          Two ways to begin
+        </h2>
+        <ul className="grid gap-4 sm:grid-cols-2">
           <li>
             <OpenAssistantButton
-              title="Where do I start?"
-              body="Tap to open the assistant. Answer a few short questions and it will point you to the topics that tend to be relevant. Nothing you tap is saved."
+              title="Not sure where to begin? Ask the assistant"
+              body="Answer a few short questions and the assistant points you to the topics that tend to be relevant. It also stays within reach at the bottom of every page. Nothing you tap is saved."
             />
           </li>
-          {cards.map((card) => (
-            <li key={card.href}>
-              <Link
-                href={card.href}
-                className="flex h-full flex-col rounded-lg border border-calm-200 bg-white p-5 transition hover:border-calm-500 hover:shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-calm-600"
-              >
-                <span className="mb-2 text-lg font-semibold text-calm-700">
-                  {card.title}
-                </span>
-                <span className="text-sm leading-relaxed text-ink">
-                  {card.body}
-                </span>
-              </Link>
-            </li>
-          ))}
+          <li>
+            <Link
+              href="/roadmap"
+              className="flex h-full flex-col rounded-lg border border-calm-200 bg-white p-5 transition hover:border-calm-500 hover:shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-calm-600"
+            >
+              <span className="mb-2 text-lg font-semibold text-calm-700">
+                Prefer the whole picture? Follow the roadmap
+              </span>
+              <span className="text-sm leading-relaxed text-ink">
+                A general order of the steps caregivers tend to take, each
+                linking to a plain-language explainer on wills, LPA, trusts, CPF,
+                insurance, guardianship, deputyship and more.
+              </span>
+            </Link>
+          </li>
         </ul>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="text-xl font-semibold text-calm-700">Explore more</h2>
-        <ul className="flex flex-wrap gap-3 text-sm">
-          {[
-            { href: "/talks", label: "Talks and sessions" },
-            { href: "/referrals", label: "Where to go next" },
-            { href: "/faq", label: "Common questions" },
-            { href: "/feedback", label: "Give feedback" },
-          ].map((link) => (
+      <section className="max-w-2xl space-y-3 rounded-lg border border-calm-200 bg-calm-100 p-6">
+        <h2 className="text-xl font-semibold text-calm-700">
+          When you are ready, talk to someone
+        </h2>
+        <p className="text-sm leading-relaxed text-calm-700">
+          A free clinic slot is a chance to talk things through with a
+          volunteer. You share only a name, one way to reach you, and a general
+          topic.
+        </p>
+        <Link
+          href="/booking"
+          className="inline-block rounded-md bg-calm-600 px-4 py-2 text-sm font-semibold text-white hover:bg-calm-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-calm-600"
+        >
+          Book a clinic
+        </Link>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold text-calm-700">More on this site</h2>
+        <ul className="grid gap-4 sm:grid-cols-2">
+          {moreLinks.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="inline-block rounded-md border border-calm-200 bg-white px-4 py-2 font-medium text-calm-700 hover:border-calm-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-calm-600"
+                className="flex h-full flex-col rounded-lg border border-calm-200 bg-white p-5 transition hover:border-calm-500 hover:shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-calm-600"
               >
-                {link.label}
+                <span className="mb-1 font-semibold text-calm-700">
+                  {link.label}
+                </span>
+                <span className="text-sm leading-relaxed text-ink">
+                  {link.body}
+                </span>
               </Link>
             </li>
           ))}

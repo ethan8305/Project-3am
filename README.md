@@ -25,7 +25,6 @@ or computer and open it full screen, without any app store. The features are:
    bottom right of every page. It asks a few non-sensitive questions and points
    you towards relevant topics and the booking page. It is not an AI: it only
    shows scripted content, holds answers in browser memory, and stores nothing.
-   A full-page version of the same questions also remains at `/triage`.
 4. **Clinic booking.** An embedded scheduling page (Cal.com, Calendly, or
    similar) for booking a clinic slot.
 5. **Talks and sessions.** A static listing of talks and workshops, with sign-up
@@ -256,7 +255,6 @@ project-3am/
     │   ├── roadmap/page.tsx     # main entry point; links to all topics
     │   ├── resources/[slug]/    # renders one topic MDX (no index page)
     │   ├── playbook/[slug]/     # renders one playbook MDX (no index page)
-    │   ├── triage/page.tsx      # full-page self-assessment (unlinked fallback)
     │   ├── talks/page.tsx
     │   ├── referrals/page.tsx
     │   ├── faq/page.tsx
@@ -268,7 +266,7 @@ project-3am/
     │   ├── SkipLink.tsx
     │   ├── ServiceWorkerRegister.tsx
     │   ├── Disclaimer.tsx
-    │   ├── TriageWizard.tsx     # full-page wizard; answers live in memory
+    │   ├── RoadmapStepLink.tsx  # shows where a page sits in the roadmap
     │   ├── chat/                # the floating "Where do I start?" assistant
     │   │   ├── ChatProvider.tsx
     │   │   ├── ChatAssistant.tsx   # scripted, no AI, stores nothing
@@ -280,6 +278,7 @@ project-3am/
     └── lib/
         ├── topics.ts
         ├── playbook.ts
+        ├── roadmap.ts           # single source for the roadmap steps
         ├── triage.ts            # pure routing logic, stores nothing
         ├── referrals.ts
         ├── faq.ts
